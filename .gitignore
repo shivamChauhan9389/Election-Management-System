@@ -1,0 +1,70 @@
+# Environment Configuration Files
+.env
+db_config_local.php
+config_local.php
+
+# Sensitive credential files (should never be committed)
+credentials.php
+config_production.php
+
+# Development and Debug Files
+*.log
+debug.log
+error.log
+access.log
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+
+# Dependency Directories
+node_modules/
+vendor/
+
+# Backup Files
+*.bak
+*.backup
+*.tmp
+*.temp
+
+# Database Dumps
+*.sql
+dumps/
+backups/
+
+# Cache and Temporary Files
+cache/
+temp/
+tmp/
+
+# User Uploads (if applicable)
+uploads/
+user_uploads/
+
+# Build and Distribution Files
+dist/
+build/
+
+# Test Coverage Reports
+coverage/
+.coverage
+
+# Local Environment Variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
