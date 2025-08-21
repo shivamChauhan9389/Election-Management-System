@@ -117,23 +117,44 @@ CREATE TABLE password_history (
 );
 ```
 
-### Step 4: Configure Database Connection
-Edit `db.php`:
+### Step 4: Configure Application (database, mail, SMS)
+1. Copy the example config and create your local config file (not committed):
+```bash
+cp config.example.php config_local.php
+```
+
+2. Open `config_local.php` and set your values:
 ```php
-$host = "localhost";        // Your database host
-$username = "root";         // Your database username
-$password = "";             // Your database password
-$database = "user_auth";    // Your database name
+return [
+    'db' => [
+        'host' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'user_auth',
+        'charset' => 'utf8',
+    ],
+    'mail' => [
+        'host' => 'smtp.gmail.com',
+        'port' => 587,
+        'username' => 'your-email@gmail.com',
+        'password' => 'your-app-password',
+        'from_email' => 'your-email@gmail.com',
+        'from_name' => 'Election',
+        'encryption' => 'tls',
+    ],
+    'twilio' => [
+        'account_sid' => 'your_twilio_account_sid',
+        'auth_token' => 'your_twilio_auth_token',
+        'from_number' => '+1234567890',
+    ],
+    'admin' => [
+        'password' => 'change_this_admin_password',
+    ],
+];
 ```
 
 ### Step 5: Configure Email Settings
-Edit `send_email.php`:
-```php
-// Replace with your Gmail credentials
-$mail->Username   = 'your-email@gmail.com';
-$mail->Password   = 'your-app-password';    // Gmail App Password
-$mail->setFrom('your-email@gmail.com', 'Your App Name');
-```
+Set the `mail` section in `config_local.php` (no edits in `send_email.php` needed). The app reads SMTP settings from the config file.
 
 **Getting Gmail App Password:**
 1. Enable 2-Factor Authentication on your Gmail account
@@ -142,13 +163,7 @@ $mail->setFrom('your-email@gmail.com', 'Your App Name');
 4. Use this 16-character password in the code
 
 ### Step 6: Configure SMS Settings
-Edit `send_sms.php`:
-```php
-// Replace with your Twilio credentials
-$account_sid = 'your_twilio_account_sid';
-$auth_token = 'your_twilio_auth_token';
-$twilio_phone_number = '+1234567890';  // Your Twilio phone number
-```
+Set the `twilio` section in `config_local.php` (no edits in `send_sms.php` needed). The app reads Twilio settings from the config file.
 
 **Getting Twilio Credentials:**
 1. Sign up at [twilio.com](https://www.twilio.com)
@@ -184,7 +199,7 @@ $twilio_phone_number = '+1234567890';  // Your Twilio phone number
 
 1. **Admin Dashboard:**
    - Go to `admin_logs.php`
-   - Default password: `admin123` (change this!)
+   - Admin password is configured in `config_local.php` under `admin.password`
    - View system logs, filter by user, action type, etc.
 
 ## 📁 File Structure
@@ -210,6 +225,7 @@ login/
 ├── send_sms.php                   # SMS sending functionality  
 ├── captcha.php                    # CAPTCHA generation
 ├── style.css                      # CSS styling
+├── config.example.php             # Example configuration (copy to config_local.php)
 ├── images/
 │   └── logo.png                   # Logo image
 ├── composer.json                  # PHP dependencies
@@ -221,10 +237,7 @@ login/
 
 ### Security Settings
 
-1. **Admin Password** (in `admin_logs.php`):
-```php
-$admin_password = "your_secure_admin_password";
-```
+1. **Admin Password**: Set in `config_local.php` under `admin.password`. Do not commit real credentials.
 
 2. **Session Security** (add to `db.php`):
 ```php
@@ -616,6 +629,7 @@ GMAIL_PASS=your_app_password
 .env
 db_config_local.php
 config_local.php
+config_production.php
 
 # Development files
 *.log
@@ -627,6 +641,7 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+vendor/
 ```
 
 ### 🧪 Testing Strategy
